@@ -22,6 +22,70 @@ message("${RKACPB} Initializing Project ...${RESET}")
 project(run)
 message("${RKACPB} Set Project Name to ${LIGHT}${PROJECT_NAME}${RESET}")
 
+# - Check Operating System
+message("${RKACPB} Operating System Name : ${LIGHT}${CMAKE_SYSTEM_NAME}${RESET}")
+message("${RKACPB} Operating System Version : ${LIGHT}${CMAKE_SYSTEM_VERSION}${RESET}")
+message("${RKACPB} Operating System Processor: ${LIGHT}${CMAKE_SYSTEM_PROCESSOR}${RESET}")
+# - Show Processor Model
+execute_process(
+    COMMAND bash -c "lscpu | grep -F 'Model name:' | awk '{for (i=3; i<=NF; i++) printf \"%s \", $i; print \"\"}'"
+    OUTPUT_VARIABLE CPU_MODEL
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" CPU_MODEL "${CPU_MODEL}")
+message("${RKACPB} Processor Model Name : ${LIGHT}${CPU_MODEL}${RESET}")
+# - Show Processor Cores
+include(ProcessorCount)
+ProcessorCount(NPROC)
+message("${RKACPB} Processor Cores : ${LIGHT}${NPROC}${RESET}")
+# - Show CPU Frequency
+execute_process(
+    COMMAND bash -c "echo \"$(lscpu | grep -F 'CPU max MHz:' | awk '{print $4}') GHz\""
+    OUTPUT_VARIABLE MAX_PROC_SPEED
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" MAX_PROC_SPEED "${MAX_PROC_SPEED}")
+execute_process(
+    COMMAND bash -c "echo \"$(lscpu | grep -F 'CPU min MHz:' | awk '{print $4}') GHz\""
+    OUTPUT_VARIABLE MIN_PROC_SPEED
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" MIN_PROC_SPEED "${MIN_PROC_SPEED}")
+execute_process(
+    COMMAND bash -c "cat /proc/cpuinfo | grep 'cpu MHz' | awk '{total += $4; count++} END {print total/count}' | bc -l"
+    OUTPUT_VARIABLE CURRENT_PROC_SPEED
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" " GHz" CURRENT_PROC_SPEED "${CURRENT_PROC_SPEED}")
+message("${RKACPB} Processor Frequency : ${RESET}")
+message("${TAB}${TEXT}Maximum ${LIGHT}${MAX_PROC_SPEED}${RESET}")
+message("${TAB}${TEXT}Minimum ${LIGHT}${MIN_PROC_SPEED}${RESET}")
+message("${TAB}${TEXT}Current ${LIGHT}${CURRENT_PROC_SPEED}${RESET}")
+# - Show Cache Line Size
+execute_process(
+    COMMAND bash -c "lscpu | grep -E 'L1d cache|cache line size' | awk '{print $3}'"
+    OUTPUT_VARIABLE CACHE_LINE_SIZE
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" CACHE_LINE_SIZE "${CACHE_LINE_SIZE}")
+message("${RKACPB} Cache Line Size : ${LIGHT}${CACHE_LINE_SIZE}${RESET}")
+# - Show Used Storage
+execute_process(
+    COMMAND bash -c "df -h | awk '/\\/$/ {print $3\" / \"$2\" Used\"}'"
+    OUTPUT_VARIABLE DISK_USAGE
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" DISK_USAGE "${DISK_USAGE}")
+execute_process(
+    COMMAND bash -c "echo \"($(df -h | awk '/\\/$/ {printf \"%0.3f%\", ($3/$2) * 100}'))\""
+    OUTPUT_VARIABLE DISK_USAGE_PERCENT
+    RESULT_VARIABLE RESULT
+)
+string(REGEX REPLACE "\n" "" DISK_USAGE_PERCENT "${DISK_USAGE_PERCENT}")
+message("${RKACPB} Used Storage : ${LIGHT}${DISK_USAGE} ${DISK_USAGE_PERCENT}${RESET}")
+# message("${RKACPB} Operating System : ${LIGHT}${PROCE}${RESET}")
+# message("${RKACPB} Operating System : ${LIGHT}${CMAKE_}${RESET}")
+
 # - Set C++ Standard
 set(CMAKE_CXX_STANDARD 11)
 
