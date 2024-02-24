@@ -11,7 +11,13 @@ if(NOT WIN32)
     set(CYAN          "${Esc}[38;2;0;255;255m")
     set(LIGHT         "${Esc}[38;2;170;170;170m")
     set(TEXT          "${BLUE}")
-    set(MRL           "${CYAN}[RKACPB]${TEXT}")
+    set(RKACPB           "${CYAN}[RKACPB]${TEXT}")
   endif()
 
-  
+# - Specify CMake Version
+cmake_minimum_required(VERSION 3.10)
+
+# - Project Name
+message("${RKACPB} Initializing Project ...${RESET}")
+project(run)
+message("${RKACPB} Set Project Name to ${LIGHT}${PROJECT_NAME}${RESET}")
