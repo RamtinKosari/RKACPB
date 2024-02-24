@@ -21,3 +21,17 @@ cmake_minimum_required(VERSION 3.10)
 message("${RKACPB} Initializing Project ...${RESET}")
 project(run)
 message("${RKACPB} Set Project Name to ${LIGHT}${PROJECT_NAME}${RESET}")
+
+# - Set C++ Standard
+set(CMAKE_CXX_STANDARD 11)
+
+# - Find Requiered Packages
+if (DEFINED _USE_PACKAGES)
+    foreach(UserPackage ${_USE_PACKAGES})
+        message("${RKACPB} Finding Package ${LIGHT}${UserPackage}${TEXT} ...${RESET}")
+        find_package(${UserPackage} REQUIRED)
+        message("${TAB}${SUCCESS} Package ${LIGHT}${UserPackage}${TEXT} has been Found${RESET}")
+    endforeach()
+else()
+    message("${RKACPB} No Additional Package Given${RESET}")
+endif()
