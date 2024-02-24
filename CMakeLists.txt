@@ -64,3 +64,6 @@ message("${RKACPB} Linking Packages ...${RESET}")
         message("${SUCCESS} Package ${LIGHT}${UserPackage}${TEXT} has been Linked to Target${RESET}")
     endforeach()
 endif()
+
+# - Define RKACPB Macro
+target_compile_definitions(${PROJECT_NAME} PRIVATE RKACPB="Project Compiles Under RKACPB Support")
