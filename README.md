@@ -9,7 +9,11 @@ It Will Automatically Compiles All Valid C++ Files (hpp, cpp and etc ...) Inside
 
 ## Update Your Code
 
+```cmd
+./setup.sh --extensions *.cpp *.hpp --packages "OpenCV;X11"
+```
+
 ### Dependencies
-* Linux / MacOS
+* Linux / Darwin (MacOS)
 * CMake
 * g++
