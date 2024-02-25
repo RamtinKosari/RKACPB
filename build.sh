@@ -56,6 +56,7 @@ for extended in "$@"; do
   if [[ "$extended" == *"."* ]]; then
     USER_EXTENSION_LIST+=("$extended")
   fi
+done
 
 # - Find All Files with Given Extensions
 if [ ${#USER_EXTENSION_LIST[@]} -ne 0 ]; then
