@@ -51,6 +51,12 @@ while true; do
   esac
 done
 
+# Extracti Extensions from the Command Line Arguments
+for extended in "$@"; do
+  if [[ "$extended" == *"."* ]]; then
+    USER_EXTENSION_LIST+=("$extended")
+  fi
+
 # - Find All Files with Given Extensions
 if [ ${#USER_EXTENSION_LIST[@]} -ne 0 ]; then
   find_expression=()
