@@ -52,22 +52,20 @@ while true; do
 done
 
 # - Find All Files with Given Extensions
-# find_expression=()
-# for ext in "${EXTENSION_LIST[@]}"; do
-#   find_expression+=("-name" "$ext" "-o")
-# done
-# find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
-# source_files=$(find . -type f \( "${find_expression[@]}" \))
-
-
-if [ ${#passed_extensions[@]} -ne 0 ]; then
+if [ ${#USER_EXTENSION_LIST[@]} -ne 0 ]; then
   find_expression=()
-  for ext in "${passed_extensions[@]}"; do
+  for ext in "${USER_EXTENSION_LIST[@]}"; do
     find_expression+=("-name" "$ext" "-o")
   done
   find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
-  source_files=$(find . -type f \( "${find_expression[@]}" \))
+else
+  find_expression=()
+  for ext in "${EXTENSION_LIST[@]}"; do
+    find_expression+=("-name" "$ext" "-o")
+  done
+  find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
 fi
+source_files=$(find . -type f \( "${find_expression[@]}" \))
 
 
 # - Check if Source List is Empty
