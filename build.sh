@@ -70,5 +70,5 @@ cd build
 source_files=$(echo $source_files | tr ' ' ';')
 
 # - Run the cmake command with the modified file list
-cmake -D_SRC="$source_files" -D_USER_PACKAGES="$PACKAGES" ..
+cmake -D_SRC="$source_files" -D_USE_PACKAGES="$PACKAGES" ..
 make
