@@ -27,7 +27,7 @@ cp CMakeLists.txt ../
 cd ..
 
 # - Parse Input Options Using getopt
-OPTS=`getopt -o e: -l extentions: -n '$0' -- "$@"`
+OPTS=$(getopt -o e:p: -l extensions:,packages: -n "$0" -- "$@")
 eval set -- "$OPTS"
 while true; do
   case "$1" in
@@ -35,7 +35,7 @@ while true; do
       EXTENSION_LIST="$2"  # Set the provided extensions
       shift 2
       ;;
-    --packages)
+    -p|--packages)
       PACKAGES="$2"
       shift 2
       ;;
