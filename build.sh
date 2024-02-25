@@ -9,9 +9,11 @@ RESET='\033[0m'
 WARNING="${YELLOW}[WARNING]${RESET}"
 FAILED="${RED}[FAILED]${RESET}"
 
-# - Default Extentions List
-# EXTENTION_LIST=".cpp .hpp"
+# - Default Extensions List
 EXTENSION_LIST=( "*.cpp" "*.hpp" )
+
+# - User Extensions List
+USER_EXTENSION_LIST=()
 
 if [ ! -d "../build" ]; then
     mkdir ../build
@@ -31,8 +33,8 @@ OPTS=$(getopt -o e:p: -l extensions:,packages: -n "$0" -- "$@")
 eval set -- "$OPTS"
 while true; do
   case "$1" in
-    -e|--extentions)
-      EXTENSION_LIST="$2"  # Set the provided extensions
+    -e|--extensions)
+      USER_EXTENSION_LIST+=("$2")
       shift 2
       ;;
     -p|--packages)
@@ -49,17 +51,26 @@ while true; do
   esac
 done
 
-# - Find All Files with Given Extentions
-find_expression=()
-for ext in "${EXTENSION_LIST[@]}"; do
-  find_expression+=("-name" "$ext" "-o")
-done
-find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
+# - Find All Files with Given Extensions
+if [ ${#USER_EXTENSION_LIST[@]} -ne 0 ]; then
+  find_expression=()
+  for ext in "${USER_EXTENSION_LIST[@]}"; do
+    find_expression+=("-name" "$ext" "-o")
+  done
+  find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
+else
+  find_expression=()
+  for ext in "${EXTENSION_LIST[@]}"; do
+    find_expression+=("-name" "$ext" "-o")
+  done
+  find_expression=("${find_expression[@]:0:$((${#find_expression[@]}-1))}")
+fi
 source_files=$(find . -type f \( "${find_expression[@]}" \))
+
 
 # - Check if Source List is Empty
 if [ -z "$source_files" ]; then
-    echo -e "$WARNING No Files with Used Extentions Found in the Project Directory."
+    echo -e "$WARNING No Files with Used Extensions Found in the Project Directory."
     exit 1
 fi
 
