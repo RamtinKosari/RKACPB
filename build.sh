@@ -69,6 +69,6 @@ cd build
 # - Replace Spaces with Semicolons in the Source Files List
 source_files=$(echo $source_files | tr ' ' ';')
 
-# - Run the cmake command with the modified file list
+# - Run the CMake Command with the Modified File List
 cmake -D_SRC="$source_files" -D_USE_PACKAGES="$PACKAGES" ..
 make
