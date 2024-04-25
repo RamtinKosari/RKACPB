@@ -127,22 +127,8 @@ endif ()
 add_executable(${PROJECT_NAME} ${_SRC})
 
 # - Link the Libraries in _USE_PACKAGES
-# if (DEFINED _USE_PACKAGES)
-# message("${RKACPB} Linking Packages ...${RESET}")
-#     foreach(UserPackage ${_USE_PACKAGES})
-#         if(${UserPackage}_LIBS)
-#             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})
-#         elseif(${UserPackage}_LIBRARIES)
-#             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARIES})
-#         else()
-#             message(FATAL_ERROR "Library variable not found for ${UserPackage}")
-#         endif()
-#     endforeach()
-# endif ()
-
-# - Link the Libraries in _USE_PACKAGES
 if (DEFINED _USE_PACKAGES)
-    message("${RKACPB} Linking Packages ...${RESET}")
+message("${RKACPB} Linking Packages ...${RESET}")
     foreach(UserPackage ${_USE_PACKAGES})
         if(${UserPackage}_LIBS)
             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})
@@ -152,16 +138,6 @@ if (DEFINED _USE_PACKAGES)
             message(FATAL_ERROR "Library variable not found for ${UserPackage}")
         endif()
     endforeach()
-
-    # Check for threading support
-    include(CheckIncludeFileCXX)
-    CHECK_INCLUDE_FILE_CXX(thread HAVE_THREADS)
-    if (HAVE_THREADS)
-        message("${RKACPB} Threading support found, no additional action needed.${RESET}")
-    else()
-        message("${RKACPB} Threading support not found, linking against pthread library ...${RESET}")
-        target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
-    endif()
 endif ()
 
 # - Define RKACPB Macro
