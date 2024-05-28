@@ -24,7 +24,7 @@ message("${RKACPB} Set Project Name to ${LIGHT}${PROJECT_NAME}${RESET}")
 
 # - Check Operating System
 message("${RKACPB} Operating System Name : ${LIGHT}${CMAKE_SYSTEM_NAME}${RESET}")
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
     message("${SUCCESS} Valid Operating System${RESET}")
 else ()
     message("${FAILED} Invalid Operating System${RESET}")
