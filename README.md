@@ -1,5 +1,11 @@
 # RKACPB
-Ramtin Kosari Automatic C++ Project Builder
+<p>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/badge/status-Under%20Develop-cyan?&labelColor=344250&color=4C778F"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/badge/C%2B%2B-11-darkcyan?logo=c%2B%2B&labelColor=344250&color=4C778F"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/badge/CMake-3.10.x-darkcyan?logo=cmake&labelColor=344250&color=4C778F"/></a>
+</p>
+
+Ramtin Kosari's Automatic C++ Project Builder
 
 ## Overview
 Use This Automatic Project Builder to Build Your C++ Project
@@ -37,3 +43,13 @@ But if You have Added New Source File and You Want to Build Project Again Do [Bu
 * Linux / Darwin (MacOS)
 * CMake
 * C++ Compiler
+
+<p>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/created-at/ramtinkosari/RKACPB?logo=github&labelColor=344250&color=447F76"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB/commits/main"><img src="https://img.shields.io/github/last-commit/ramtinkosari/RKACPB?logo=github&labelColor=344250&color=447F76" alt="Latest commit"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/issues/ramtinkosari/RKACPB?labelColor=344250&color=447F76""/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/discussions/ramtinkosari/RKACPB?labelColor=344250&color=447F76"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/repo-size/ramtinkosari/RKACPB?labelColor=344250&color=447F76"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/forks/ramtinkosari/RKACPB?style=flat&labelColor=344250&color=447F76"/></a>
+    <a href="https://github.com/ramtinkosari/RKACPB"><img src="https://img.shields.io/github/stars/ramtinkosari/RKACPB?style=flat-square&labelColor=344250&color=447F76"/></a>
+</p>
