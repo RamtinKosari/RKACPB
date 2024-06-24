@@ -32,7 +32,7 @@ if You Need Additional Packages to Build Your Project, Do :
 # - This Command Will Link OpenCV and X11 Library to Build Target
 ```
 
-## Update Your Code
+## Updating Your Code
 to Build Updated Code Just Go to Build Directory and Do :
 ```shell
 make
