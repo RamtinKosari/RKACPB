@@ -65,6 +65,8 @@ RKACPB Automatically Defines Macros for each Header File in Your Project, You Ca
 ```
 ⚠️ RKACPB Defines Macros in Style of ```HAS_RKACPB_MODULE_[Header File Name without .hpp .cpp and ...]```
 
+⚠️ if You Want this Feature Works Well, You Must be Sure that Your Header File You Are Writing This, Must be Included Somehow into Where ```main()``` Method is (Executable).
+
 ### Dependencies
 * Linux / Darwin (MacOS)
 * CMake
