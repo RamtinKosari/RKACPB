@@ -39,6 +39,32 @@ make
 ```
 But if You have Added New Source File and You Want to Build Project Again Do [Build Automatic](#build-automatic)
 
+## Features
+### 1. Include Directories Automatically
+RKACPB Automatically Defines Include Directories for each Configured Directory via [Build Script](https://github.com/RamtinKosari/RKACPB/blob/main/build.sh). So You Can Use Source Files in Your Code without Using Their Relative Paths like :
+```c++
+//-- Instead of Using This :
+# include "../../Utils/Terminal/Colors/Colors.hpp"
+
+//-- Use This :
+# include "Colors.hpp"
+```
+
+### 2. Define Headers Macro Combined with ```RKACPB``` (for Support) Automatically
+RKACPB Automatically Defines Macros for each Header File in Your Project, You Can Use These Macros in Your Code before Including any Headers in Order to Check That Header File is Configured to Compile. Sample Usage for Header File Named ```foo.hpp``` in Your C++ Code:
+```c++
+//-- Use This When You Want to be Sure if Necessary Headers are Configured to be Compiled, This is One of RKACPB's Supports
+//-- Check if Project is Configured by RKACPB
+# ifdef RKACPB
+    //-- Check if foo.hpp is Configured to be Compiled
+    # ifndef HAS_RKACPB_MODULE_FOO
+        //-- Handle if Not Defiend
+        # error This Code Needs Foo Header File
+    # endif // HAS_RKACPB_MODULE_FOO
+# endif // RKACPB
+```
+⚠️ RKACPB Defines Macros in Style of ```HAS_RKACPB_MODULE_[Header File Name without .hpp .cpp and ...]```
+
 ### Dependencies
 * Linux / Darwin (MacOS)
 * CMake
