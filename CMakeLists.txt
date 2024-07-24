@@ -9,9 +9,9 @@ if (NOT WIN32)
     set(CYAN          "${Esc}[38;2;0;255;255m")
     set(LIGHT         "${Esc}[38;2;170;170;170m")
     set(TEXT          "${BLUE}")
-    set(SUCCESS       "${TAB}${GREEN}[SUCCESS]${TEXT}")
-    set(FAILED        "${TAB}${RED}[FAILED]${TEXT}")
-    set(RKACPB           "${CYAN}[RKACPB]${TEXT}")
+    set(RKACPB        "${CYAN}[RKACPB]${TEXT}")
+    set(SUCCESS       "${RKACPB} ${GREEN}[SUCCESS]${TEXT}")
+    set(FAILED        "${RKACPB} ${RED}[FAILED]${TEXT}")
   endif ()
 
 # - Specify CMake Version
@@ -25,13 +25,14 @@ message("${RKACPB} Set Project Name to ${LIGHT}${PROJECT_NAME}${RESET}")
 # - Check Operating System
 message("${RKACPB} Operating System Name : ${LIGHT}${CMAKE_SYSTEM_NAME}${RESET}")
 if (CMAKE_SYSTEM_NAME STREQUAL "Linux" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
-    message("${SUCCESS} Valid Operating System${RESET}")
+    message("${SUCCESS} Validate Operating System${RESET}")
 else ()
     message("${FAILED} Invalid Operating System${RESET}")
     return()
 endif ()
 message("${RKACPB} Operating System Version : ${LIGHT}${CMAKE_SYSTEM_VERSION}${RESET}")
 message("${RKACPB} Operating System Processor: ${LIGHT}${CMAKE_SYSTEM_PROCESSOR}${RESET}")
+
 # - Show Processor Model
 execute_process(
     COMMAND bash -c "lscpu | grep -F 'Model name:' | awk '{for (i=3; i<=NF; i++) printf \"%s \", $i; print \"\"}'"
@@ -40,10 +41,12 @@ execute_process(
 )
 string(REGEX REPLACE "\n" "" CPU_MODEL "${CPU_MODEL}")
 message("${RKACPB} Processor Model Name : ${LIGHT}${CPU_MODEL}${RESET}")
+
 # - Show Processor Cores
 include(ProcessorCount)
 ProcessorCount(NPROC)
 message("${RKACPB} Processor Cores : ${LIGHT}${NPROC}${RESET}")
+
 # - Show CPU Frequency
 execute_process(
     COMMAND bash -c "echo \"$(lscpu | grep -F 'CPU max MHz:' | awk '{print $4}') GHz\""
@@ -67,6 +70,7 @@ message("${RKACPB} Processor Frequency : ${RESET}")
 message("${TAB}${TEXT}Maximum ${LIGHT}${MAX_PROC_SPEED}${RESET}")
 message("${TAB}${TEXT}Minimum ${LIGHT}${MIN_PROC_SPEED}${RESET}")
 message("${TAB}${TEXT}Current ${LIGHT}${CURRENT_PROC_SPEED}${RESET}")
+
 # - Show Cache Line Size
 execute_process(
     COMMAND bash -c "lscpu | grep -E 'L1d cache|cache line size' | awk '{print $3}'"
@@ -75,6 +79,7 @@ execute_process(
 )
 string(REGEX REPLACE "\n" "" CACHE_LINE_SIZE "${CACHE_LINE_SIZE}")
 message("${RKACPB} Cache Line Size : ${LIGHT}${CACHE_LINE_SIZE}${RESET}")
+
 # - Show Used Storage
 execute_process(
     COMMAND bash -c "df -h | awk '/\\/$/ {print $3\" / \"$2\" Used\"}'"
@@ -89,8 +94,6 @@ execute_process(
 )
 string(REGEX REPLACE "\n" "" DISK_USAGE_PERCENT "${DISK_USAGE_PERCENT}")
 message("${RKACPB} Used Storage : ${LIGHT}${DISK_USAGE} ${DISK_USAGE_PERCENT}${RESET}")
-# message("${RKACPB} Operating System : ${LIGHT}${PROCE}${RESET}")
-# message("${RKACPB} Operating System : ${LIGHT}${CMAKE_}${RESET}")
 
 # - Set C++ Standard
 set(CMAKE_CXX_STANDARD 11)
@@ -108,23 +111,45 @@ endif ()
 
 # - Add Source Files
 if (DEFINED _SRC)
+    set(DIRECTORY_SET)
+    set(HEADER_MACROS)
     foreach(SOURCE_FILE ${_SRC})
-        message("${RKACPB} Checking Input Source ${LIGHT}${SOURCE_FILE}${RESET}")
+        # - Check Source File
         if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_FILE}")
             message("${SUCCESS} Found Source File ${LIGHT}${SOURCE_FILE}${RESET}")
+            get_filename_component(DIR "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_FILE}" DIRECTORY)
+            list(APPEND DIRECTORY_SET ${DIR})
+            # - Process Header Files
+            if("${SOURCE_FILE}" MATCHES "\\.hpp$")
+                get_filename_component(BASENAME "${SOURCE_FILE}" NAME_WE)
+                string(TOUPPER "${BASENAME}" MACRO_NAME)
+                string(REPLACE " " "_" MACRO_NAME "${MACRO_NAME}")
+                list(APPEND HEADER_MACROS "HAS_RKACPB_MODULE_${MACRO_NAME}")
+            endif()
         else ()
             message("${FAILED} Source File ${LIGHT}${SOURCE_FILE}${TEXT} Not Found${RESET}")
             return()
         endif ()
     endforeach()
+    # - Include Directories
+    list(REMOVE_DUPLICATES DIRECTORY_SET)
+    foreach(DIR ${DIRECTORY_SET})
+        message("${SUCCESS} Including Directory ${LIGHT}${DIR}${RESET}")
+        include_directories(${DIR})
+    endforeach()
 else ()
-    message("${RKACPB} Checking Source File ...${RESET}")
     message("${FAILED} No Selected Source File ...${RESET}")
     return()
 endif ()
 
 # - Add Executable
 add_executable(${PROJECT_NAME} ${_SRC})
+
+# - Define Project Modules Macros
+foreach(MACRO ${HEADER_MACROS})
+    target_compile_definitions(${PROJECT_NAME} PRIVATE ${MACRO})
+    message("${SUCCESS} Defining Macro ${CYAN}${MACRO}${RESET}")
+endforeach()
 
 # - Link the Libraries in _USE_PACKAGES
 if (DEFINED _USE_PACKAGES)
