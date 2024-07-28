@@ -32,6 +32,17 @@ if You Need Additional Packages to Build Your Project, Do :
 # - This Command Will Link OpenCV and X11 Library to Build Target
 ```
 
+## Supported Packages
+RKACPB's ```--packages``` Option Currently Supports these Packages :
+- [x] OpenCV [(Open Source Computer Vision Library)](https://opencv.org/)
+- [x] GLEW [(OpenGL Extension Wrangler Library)](https://glew.sourceforge.net/)
+- [x] glfw3 [(Graphics Library Framework)](https://www.glfw.org/)
+- [x] OpenGL [(Open Graphics Library)](https://www.opengl.org/)
+- [x] X11 [(X Window System)](https://www.x.org/)
+
+⚠️ Use them in the Way as Above
+
+
 ## Updating Your Code
 to Build Updated Code Just Go to Build Directory and Do :
 ```shell
