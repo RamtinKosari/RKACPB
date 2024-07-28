@@ -97,10 +97,19 @@ message("${RKACPB} Used Storage : ${LIGHT}${DISK_USAGE} ${DISK_USAGE_PERCENT}${R
 
 # - Set C++ Standard
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # - Find Requiered Packages
 if (DEFINED _USE_PACKAGES)
     foreach(UserPackage ${_USE_PACKAGES})
+        # - Handle Specific Packages
+        if (UserPackage STREQUAL "OpenGL") # - Handle OpenGL
+            # - Handle Policy CMP0072
+            if (POLICY CMP0072)
+                cmake_policy(SET CMP0072 NEW)
+            endif()
+        endif()
+        # - Find Package
         message("${RKACPB} Finding Package ${LIGHT}${UserPackage}${TEXT} ...${RESET}")
         find_package(${UserPackage} REQUIRED)
         message("${SUCCESS} Package ${LIGHT}${UserPackage}${TEXT} has been Found${RESET}")
@@ -155,10 +164,23 @@ endforeach()
 if (DEFINED _USE_PACKAGES)
 message("${RKACPB} Linking Packages ...${RESET}")
     foreach(UserPackage ${_USE_PACKAGES})
+        # - Handle Default Styles
         if(${UserPackage}_LIBS)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})           # - Handle LIBS
         elseif(${UserPackage}_LIBRARIES)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARIES})
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARIES})      # - Handle LIBRARIES
+        elseif(${UserPackage}_LIB)
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIB})            # - Handle LIB
+        elseif(${UserPackage}_LIBRARY)
+            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARY})        # - Handle LIBRARY
+        endif()
+        # - Handle Specific Packages
+        if (UserPackage STREQUAL "OpenGL")                                                  # - Handle OpenGL
+            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
+        elseif (UserPackage STREQUAL "glfw3")                                                # - Handle GLFW
+            target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+        elseif (UserPackage STREQUAL "GLEW")                                                # - Handle GLEW
+            target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
         else()
             message(FATAL_ERROR "Library variable not found for ${UserPackage}")
         endif()
