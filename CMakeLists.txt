@@ -103,11 +103,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if (DEFINED _USE_PACKAGES)
     foreach(UserPackage ${_USE_PACKAGES})
         # - Handle Specific Packages
-        if (UserPackage STREQUAL "OpenGL") # - Handle OpenGL
+        if (UserPackage STREQUAL "OpenGL")          # - Handle OpenGL
             # - Handle Policy CMP0072
             if (POLICY CMP0072)
                 cmake_policy(SET CMP0072 NEW)
             endif()
+        elseif (UserPackage STREQUAL "SFML")        # - Handle SFML
+            # - Handle Policy CMP0072
+            find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+            continue()
         endif()
         # - Find Package
         message("${RKACPB} Finding Package ${LIGHT}${UserPackage}${TEXT} ...${RESET}")
@@ -129,7 +133,7 @@ if (DEFINED _SRC)
             get_filename_component(DIR "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_FILE}" DIRECTORY)
             list(APPEND DIRECTORY_SET ${DIR})
             # - Process Header Files
-            if("${SOURCE_FILE}" MATCHES "\\.hpp$")
+            if ("${SOURCE_FILE}" MATCHES "\\.(hpp|h)$")
                 get_filename_component(BASENAME "${SOURCE_FILE}" NAME_WE)
                 string(TOUPPER "${BASENAME}" MACRO_NAME)
                 string(REPLACE " " "_" MACRO_NAME "${MACRO_NAME}")
@@ -165,26 +169,54 @@ if (DEFINED _USE_PACKAGES)
 message("${RKACPB} Linking Packages ...${RESET}")
     foreach(UserPackage ${_USE_PACKAGES})
         # - Handle Default Styles
-        if(${UserPackage}_LIBS)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})           # - Handle LIBS
+        if(${UserPackage}_LIBS)                 # - Handle LIBS
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                ${${UserPackage}_LIBS}
+            )
             continue()
-        elseif(${UserPackage}_LIBRARIES)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARIES})      # - Handle LIBRARIES
+        elseif(${UserPackage}_LIBRARIES)        # - Handle LIBRARIES
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                ${${UserPackage}_LIBRARIES}
+            )
             continue()
-        elseif(${UserPackage}_LIB)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIB})            # - Handle LIB
+        elseif(${UserPackage}_LIB)              # - Handle LIB
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                ${${UserPackage}_LIB}
+            )
             continue()
-        elseif(${UserPackage}_LIBRARY)
-            target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARY})        # - Handle LIBRARY
+        elseif(${UserPackage}_LIBRARY)          # - Handle LIBRARY
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                ${${UserPackage}_LIBRARY}
+            )
             continue()
         endif()
         # - Handle Specific Packages
-        if (UserPackage STREQUAL "OpenGL")                                                  # - Handle OpenGL
-            target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
-        elseif (UserPackage STREQUAL "glfw3")                                               # - Handle GLFW
-            target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
-        elseif (UserPackage STREQUAL "GLEW")                                                # - Handle GLEW
-            target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
+        if (UserPackage STREQUAL "OpenGL")      # - Handle OpenGL
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                OpenGL::GL
+            )
+        elseif (UserPackage STREQUAL "glfw3")   # - Handle GLFW
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                glfw
+            )
+        elseif (UserPackage STREQUAL "GLEW")    # - Handle GLEW
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                GLEW::GLEW
+            )
+        elseif (UserPackage STREQUAL "SFML")    # - Handle SFML
+            target_link_libraries(
+                ${PROJECT_NAME} PRIVATE
+                sfml-graphics
+                sfml-window
+                sfml-system
+            )
         else()
             message(FATAL_ERROR "Library variable not found for ${UserPackage}")
         endif()
