@@ -36,6 +36,7 @@ if You Need Additional Packages to Build Your Project, Do :
 RKACPB's ```--packages``` Option Currently Supports these Packages :
 - [x] OpenCV [(Open Source Computer Vision Library)](https://opencv.org/)
 - [x] GLEW [(OpenGL Extension Wrangler Library)](https://glew.sourceforge.net/)
+- [x] SFML [(Simple and Fast Multimedia Library)](https://www.sfml-dev.org/)
 - [x] glfw3 [(Graphics Library Framework)](https://www.glfw.org/)
 - [x] OpenGL [(Open Graphics Library)](https://www.opengl.org/)
 - [x] GLUT [(OpenGL Utility Toolkit)](https://www.opengl.org/resources/libraries/glut/)
