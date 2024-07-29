@@ -19,12 +19,12 @@ cd RKACPB
 ./build.sh
 ```
 
-if You Want to Build Specefic Files or Files with Specefic File Extensions, Do Like This :
-* ./build.sh Builds All .cpp and .hpp Files Inside Your Project by Default
+if You Want to Build Specific Files or Files with Specefic File Extensions, Do Like This :  
 ```shell
 ./build.sh --extensions *.cc *.c *.cxx *.hh *.h *.hxx *.py
 # - This Command Will Build All Files with Provided Extensions
 ```
+💡 ./build.sh Builds All .cpp, .hpp, .c and .h Files Inside Your Project by Default
 
 if You Need Additional Packages to Build Your Project, Do :
 ```shell
