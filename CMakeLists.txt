@@ -129,7 +129,7 @@ if (DEFINED _SRC)
             get_filename_component(DIR "${CMAKE_CURRENT_SOURCE_DIR}/${SOURCE_FILE}" DIRECTORY)
             list(APPEND DIRECTORY_SET ${DIR})
             # - Process Header Files
-            if("${SOURCE_FILE}" MATCHES "\\.hpp$")
+            if ("${SOURCE_FILE}" MATCHES "\\.(hpp|h)$")
                 get_filename_component(BASENAME "${SOURCE_FILE}" NAME_WE)
                 string(TOUPPER "${BASENAME}" MACRO_NAME)
                 string(REPLACE " " "_" MACRO_NAME "${MACRO_NAME}")
