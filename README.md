@@ -38,6 +38,8 @@ RKACPB's ```--packages``` Option Currently Supports these Packages :
 - [x] GLEW [(OpenGL Extension Wrangler Library)](https://glew.sourceforge.net/)
 - [x] glfw3 [(Graphics Library Framework)](https://www.glfw.org/)
 - [x] OpenGL [(Open Graphics Library)](https://www.opengl.org/)
+- [x] GLUT [(OpenGL Utility Toolkit)](https://www.opengl.org/resources/libraries/glut/)
+- [x] GLU [(OpenGL Utility Library)](https://www.ibm.com/docs/en/aix/7.1?topic=manual-opengl-utility-glu-library)
 - [x] X11 [(X Window System)](https://www.x.org/)
 
 ⚠️ Use them in the Way as Above
