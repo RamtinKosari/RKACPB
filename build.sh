@@ -10,7 +10,7 @@ WARNING="${YELLOW}[WARNING]${RESET}"
 FAILED="${RED}[FAILED]${RESET}"
 
 # - Default Extensions List
-EXTENSION_LIST=( "*.cpp" "*.hpp" )
+EXTENSION_LIST=( "*.cpp" "*.hpp" "*.c" "*.h")
 
 # - User Extensions List
 USER_EXTENSION_LIST=()
@@ -86,6 +86,8 @@ cd build
 
 # - Replace Spaces with Semicolons in the Source Files List
 source_files=$(echo $source_files | tr ' ' ';')
+
+echo -e "$source_files"
 
 # - Run the CMake Command with the Modified File List
 cmake -D_SRC="$source_files" -D_USE_PACKAGES="$PACKAGES" ..
