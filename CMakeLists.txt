@@ -167,17 +167,21 @@ message("${RKACPB} Linking Packages ...${RESET}")
         # - Handle Default Styles
         if(${UserPackage}_LIBS)
             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBS})           # - Handle LIBS
+            continue()
         elseif(${UserPackage}_LIBRARIES)
             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARIES})      # - Handle LIBRARIES
+            continue()
         elseif(${UserPackage}_LIB)
             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIB})            # - Handle LIB
+            continue()
         elseif(${UserPackage}_LIBRARY)
             target_link_libraries(${PROJECT_NAME} PRIVATE ${${UserPackage}_LIBRARY})        # - Handle LIBRARY
+            continue()
         endif()
         # - Handle Specific Packages
         if (UserPackage STREQUAL "OpenGL")                                                  # - Handle OpenGL
             target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL)
-        elseif (UserPackage STREQUAL "glfw3")                                                # - Handle GLFW
+        elseif (UserPackage STREQUAL "glfw3")                                               # - Handle GLFW
             target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
         elseif (UserPackage STREQUAL "GLEW")                                                # - Handle GLEW
             target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW)
