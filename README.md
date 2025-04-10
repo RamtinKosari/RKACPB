@@ -19,12 +19,12 @@ cd RKACPB
 ./build.sh
 ```
 
-if You Want to Build Specefic Files or Files with Specefic File Extensions, Do Like This :
-* ./build.sh Builds All .cpp and .hpp Files Inside Your Project by Default
+if You Want to Build Specific Files or Files with Specefic File Extensions, Do Like This :  
 ```shell
 ./build.sh --extensions *.cc *.c *.cxx *.hh *.h *.hxx *.py
 # - This Command Will Build All Files with Provided Extensions
 ```
+💡 ./build.sh Builds All .cpp, .hpp, .c and .h Files Inside Your Project by Default
 
 if You Need Additional Packages to Build Your Project, Do :
 ```shell
@@ -32,12 +32,54 @@ if You Need Additional Packages to Build Your Project, Do :
 # - This Command Will Link OpenCV and X11 Library to Build Target
 ```
 
-## Updating Your Code
+## Supported Packages
+RKACPB's ```--packages``` Option Currently Supports these Packages :
+- [x] OpenCV [(Open Source Computer Vision Library)](https://opencv.org/)
+- [x] GLEW [(OpenGL Extension Wrangler Library)](https://glew.sourceforge.net/)
+- [x] SFML [(Simple and Fast Multimedia Library)](https://www.sfml-dev.org/)
+- [x] glfw3 [(Graphics Library Framework)](https://www.glfw.org/)
+- [x] OpenGL [(Open Graphics Library)](https://www.opengl.org/)
+- [x] GLUT [(OpenGL Utility Toolkit)](https://www.opengl.org/resources/libraries/glut/)
+- [x] GLU [(OpenGL Utility Library)](https://www.ibm.com/docs/en/aix/7.1?topic=manual-opengl-utility-glu-library)
+- [x] X11 [(X Window System)](https://www.x.org/)
+
+⚠️ Use them in the Way as Above
+
+
+## Build Updated Code
 to Build Updated Code Just Go to Build Directory and Do :
 ```shell
 make
 ```
 But if You have Added New Source File and You Want to Build Project Again Do [Build Automatic](#build-automatic)
+
+## Features
+### 1. Include Directories Automatically
+RKACPB Automatically Defines Include Directories for each Configured Directory via [Build Script](https://github.com/RamtinKosari/RKACPB/blob/main/build.sh). So You Can Use Source Files in Your Code without Using Their Relative Paths like :
+```c++
+//-- Instead of Using This :
+# include "../../Utils/Terminal/Colors/Colors.hpp"
+
+//-- Use This :
+# include "Colors.hpp"
+```
+
+### 2. Define Headers Macro Combined with ```RKACPB``` (for Support) Automatically
+RKACPB Automatically Defines Macros for each Header File in Your Project, You Can Use These Macros in Your Code before Including any Headers in Order to Check That Header File is Configured to Compile. Sample Usage for Header File Named ```foo.hpp``` in Your C++ Code:
+```c++
+//-- Use This When You Want to be Sure if Necessary Headers are Configured to be Compiled, This is One of RKACPB's Supports
+//-- Check if Project is Configured by RKACPB
+# ifdef RKACPB
+    //-- Check if foo.hpp is Configured to be Compiled
+    # ifndef HAS_RKACPB_MODULE_FOO
+        //-- Handle if Not Defiend
+        # error This Code Needs Foo Header File
+    # endif // HAS_RKACPB_MODULE_FOO
+# endif // RKACPB
+```
+⚠️ RKACPB Defines Macros in Style of ```HAS_RKACPB_MODULE_[Header File Name without .hpp .cpp and ...]```
+
+⚠️ if You Want this Feature Works Well, You Must be Sure that Your Header File You Are Writing This, Must be Included Somehow into Where ```main()``` Method is (Executable).
 
 ### Dependencies
 * Linux / Darwin (MacOS)
