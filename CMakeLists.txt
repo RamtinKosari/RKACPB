@@ -112,6 +112,35 @@ if (DEFINED _USE_PACKAGES)
             # - Handle Policy CMP0072
             find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
             continue()
+        elseif (UserPackage STREQUAL "CUDA")        # - Handle CUDA
+            # - Find CUDA
+            find_package(CUDA 11 REQUIRED)
+            set(CMAKE_CUDA_STANDARD 11)
+            set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+            if(CUDA_FOUND)
+                add_definitions(-DRKACPB_CUDA_SUPPORT)
+                message("${SUCCESS} CUDA Found and Enabled${RESET}")
+            else()
+                message("${FAILED} CUDA Not Found${RESET}")
+                return()
+            endif()
+            continue()
+        elseif (UserPackage STREQUAL "FFMPEG")      # - Handle FFmpeg
+            # - Find FFmpeg
+            find_package(PkgConfig REQUIRED)
+            pkg_check_modules(AVFORMAT REQUIRED libavformat)
+            pkg_check_modules(AVCODEC REQUIRED libavcodec)
+            pkg_check_modules(SWSCALE REQUIRED libswscale)
+            pkg_check_modules(AVUTIL REQUIRED libavutil)
+            # - Include Directories and Link Libraries
+            include_directories(
+                ${AVFORMAT_INCLUDE_DIRS}
+                ${AVCODEC_INCLUDE_DIRS}
+                ${SWSCALE_INCLUDE_DIRS}
+                ${AVUTIL_INCLUDE_DIRS}
+            )
+            message("${SUCCESS} FFmpeg Libraries Found and Linked${RESET}")
+            continue()
         endif()
         # - Find Package
         message("${RKACPB} Finding Package ${LIGHT}${UserPackage}${TEXT} ...${RESET}")
@@ -217,6 +246,28 @@ message("${RKACPB} Linking Packages ...${RESET}")
                 sfml-window
                 sfml-system
             )
+        elseif (UserPackage STREQUAL "FFMPEG")
+            find_package(PkgConfig REQUIRED)
+            pkg_check_modules(AVFORMAT REQUIRED libavformat)
+            pkg_check_modules(AVCODEC REQUIRED libavcodec)
+            pkg_check_modules(SWSCALE REQUIRED libswscale)
+            pkg_check_modules(AVUTIL REQUIRED libavutil)
+
+            include_directories(
+                ${AVFORMAT_INCLUDE_DIRS}
+                ${AVCODEC_INCLUDE_DIRS}
+                ${SWSCALE_INCLUDE_DIRS}
+                ${AVUTIL_INCLUDE_DIRS}
+            )
+
+            target_link_libraries(${PROJECT_NAME} PRIVATE
+                ${AVFORMAT_LIBRARIES}
+                ${AVCODEC_LIBRARIES}
+                ${SWSCALE_LIBRARIES}
+                ${AVUTIL_LIBRARIES}
+                m
+            )
+            message("${SUCCESS} FFmpeg Libraries Found and Linked${RESET}")
         else()
             message(FATAL_ERROR "Library variable not found for ${UserPackage}")
         endif()
