@@ -39,6 +39,7 @@ RKACPB's ```--packages``` Option Currently Supports these Packages :
 - [x] SFML [(Simple and Fast Multimedia Library)](https://www.sfml-dev.org/)
 - [x] glfw3 [(Graphics Library Framework)](https://www.glfw.org/)
 - [x] OpenGL [(Open Graphics Library)](https://www.opengl.org/)
+- [x] FFmpeg [(Fast Forward MPEG)](https://ffmpeg.org/)
 - [x] GLUT [(OpenGL Utility Toolkit)](https://www.opengl.org/resources/libraries/glut/)
 - [x] GLU [(OpenGL Utility Library)](https://www.ibm.com/docs/en/aix/7.1?topic=manual-opengl-utility-glu-library)
 - [x] X11 [(X Window System)](https://www.x.org/)
